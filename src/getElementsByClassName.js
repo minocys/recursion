@@ -5,5 +5,18 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
-  // your code here
-};
+	var res = [];
+
+	var gEBC = function(items){
+		for(var i = 0; i < items.length; i++){
+			if(items[i].childNodes.length !== 0){
+				gEBC(items[i].childNodes);
+			}
+			var x = items[i].classList;
+			console.log(x);
+		}
+	}
+
+	gEBC(document.body.childNodes);
+	return res;
+}
