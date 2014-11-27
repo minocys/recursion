@@ -47,26 +47,31 @@ var stringifyJSON = function(obj) {
   			break;
   		}
 
-  		//followed by stringifying!
   		var temp ='{'
   		for(var item in obj){
   			if(obj.hasOwnProperty(item)){
+          //checking for null objects and functions
+          if(obj[item]===undefined || (typeof (obj[item]) === 'function' && !obj[item].arguments)){
+            console.log('its empty!');
+            break;
+          }
   				temp +='"' + item + '":' + stringifyJSON(obj[item]) + ",";
   				console.log('erhherherherher'); 
   				console.log(obj[item]);
   			} else{
-  				//console.log(Object.keys(obj)+'herhehehrhh');
-  				//result.push(stringifyJSON(item));
   				temp += stringifyJSON(item) + ",";
   			}
   		}
-  		temp = temp.substring(0, temp.length-1) + '}';
+      (temp.length === 1) ? (temp += '}') : (temp = temp.substring(0, temp.length-1) + '}');
   		result.push(temp);
   		break;
+    case 'function':
+      result.push(obj.toString());
+      break;
   	default:
   		result.push('null');
   }
   var res = result.join(',');
-  console.log(res +' test');
+  console.log(res +' is result of stringify');
   return res;
 };
