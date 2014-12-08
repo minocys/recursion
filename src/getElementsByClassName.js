@@ -4,30 +4,7 @@
 // };
 
 // But instead we're going to implement it from scratch:
-<<<<<<< HEAD
-var getElementsByClassName = function(className){
-	var res = [];
-	
-	/* for testing
-	var actual = document.getElementsByClassName(className);
-	console.log(actual); 
-	*/
 
-	var gEBC = function(items){
-		for(var i = 0; i < items.length; i++){
-			var classes = items[i].classList;
-			if(classes && classes.contains(className)){
-				res.push(items[i]);
-			}
-			if(items[i].childNodes.length !== 0){
-				gEBC(items[i].childNodes);
-			}
-		}
-	}
-	gEBC(document.childNodes);
-	return res;
-}
-=======
 var getElementsByClassName = function(className, node){
   // your code here
   var result = [];
@@ -47,4 +24,3 @@ var getElementsByClassName = function(className, node){
   return result;
 
 };
->>>>>>> temporarywork
