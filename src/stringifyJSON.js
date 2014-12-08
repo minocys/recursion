@@ -4,74 +4,27 @@
 // but you don't so you're going to write it from scratch:
 var stringifyJSON = function(obj) {
   // your code goes here
-  var result = [];
-  if(obj === null){
-  	return 'null';
+  if(Array.isArray(obj)){
+    var results = [];
+    for(var x = 0; x < obj.length; x++){
+      results.push( stringifyJSON(obj[x]));
+    }
+    return '[' + results.join(',') +']';
   }
-  console.log(obj);
 
-  var type = typeof(obj);
-  console.log(type);
-  switch (type) {
-  	case 'string':
-  		result.push('"' + obj + '"');
-  		break;
-  	case 'number':
-  		result.push(obj.toString());
-  		break;
-  	case 'boolean':
-  		result.push(obj.toString());
-  		break;
-  	case 'object':
-
-  		//test if object is an array
-  		if(obj.length !== undefined){
-  			//is object empty?
-  			if(obj.length === 0){
-  				result.push('[]');
-  				break;
-  			}
-  			var temp = '[';
-  			for(var i = 0; i < obj.length; i++){
-  				temp += stringifyJSON(obj[i]) + ',';
-  			}
-  			temp = temp.substring(0, temp.length-1) + ']';
-  			result.push(temp);
-  			break;
-  		}
-
-  		//moving on to objects
-  		//first check if object is empty
-  		if(Object.keys(obj).length === 0){
-  			result.push('{}');
-  			break;
-  		}
-
-  		var temp ='{'
-  		for(var item in obj){
-  			if(obj.hasOwnProperty(item)){
-          //checking for null objects and functions
-          if(obj[item]===undefined || (typeof (obj[item]) === 'function' && !obj[item].arguments)){
-            console.log('its empty!');
-            break;
-          }
-  				temp +='"' + item + '":' + stringifyJSON(obj[item]) + ",";
-  				console.log('erhherherherher'); 
-  				console.log(obj[item]);
-  			} else{
-  				temp += stringifyJSON(item) + ",";
-  			}
-  		}
-      (temp.length === 1) ? (temp += '}') : (temp = temp.substring(0, temp.length-1) + '}');
-  		result.push(temp);
-  		break;
-    case 'function':
-      result.push(obj.toString());
-      break;
-  	default:
-  		result.push('null');
+  if(obj && typeof obj === 'object'){
+    var results = [];
+    for (var key in obj){
+      if( obj[key] === undefined || typeof(obj[key]) === 'function' ){
+        continue;
+      }
+      results.push( stringifyJSON(key)+':'+stringifyJSON(obj[key]) );
+    }
+    return '{' + results.join(',') + '}';
   }
-  var res = result.join(',');
-  console.log(res +' is result of stringify');
-  return res;
+
+  if( typeof obj === 'string' ){
+    return '"'+obj+'"';
+  }
+  return ''+obj;
 };
